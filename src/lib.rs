@@ -1,9 +1,11 @@
 #![allow(clippy::question_mark)]
 
 pub mod extensions;
+mod vrm;
 
 use nanoserde::DeJson;
 use std::fmt::Debug;
+use crate::extensions::VrmcVrm;
 
 pub trait Extensions: DeJson {
     type RootExtensions: DeJson + Default + Debug + Clone;
@@ -49,7 +51,17 @@ pub struct Gltf<E: Extensions> {
     pub scenes: Vec<Scene>,
     #[nserde(default)]
     pub scene: usize,
+    // #[nserde(rename = "VRM")]
+    // #[nserde(default)]
+    // pub vrm: Vrm,
 }
+
+// #[derive(Debug, DeJson, Clone, Default)]
+// pub struct Vrm {
+//     #[nserde(rename = "specVersion")]
+//     #[nserde(default)]
+//     pub spec_version: String,
+// }
 
 impl<E: Extensions> Gltf<E> {
     pub fn from_bytes(bytes: &[u8]) -> Result<(Self, Option<&[u8]>), nanoserde::DeJsonErr> {
@@ -636,7 +648,7 @@ pub struct Scene {
 }
 
 pub mod default_extensions {
-    use crate::extensions;
+    use crate::{extensions, vrm};
     use nanoserde::DeJson;
 
     #[derive(Debug, Default, Clone, Copy, DeJson)]
@@ -657,6 +669,8 @@ pub mod default_extensions {
     pub struct RootExtensions {
         #[nserde(rename = "KHR_lights_punctual")]
         pub khr_lights_punctual: Option<extensions::KhrLightsPunctual>,
+        #[nserde(rename = "VRM")]
+        pub vrm: Option<vrm::Vrm>,
     }
 
     #[derive(Debug, DeJson, Default, Clone)]

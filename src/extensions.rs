@@ -6,6 +6,25 @@ pub struct KhrTextureBasisu {
     pub source: usize,
 }
 
+#[derive(Debug, DeJson, Clone)]
+pub struct VrmcVrm {
+    #[nserde(rename = "exporterVersion")]
+    #[nserde(default)]
+    pub exporter_version: String,
+    #[nserde(rename = "specVersion")]
+    #[nserde(default)]
+    pub spec_version: String,
+    // #[nserde(default)]
+    // pub humanoid: (),
+    // #[nserde(default)]
+    // pub meta: (),
+}
+
+#[derive(Debug, DeJson, Clone)]
+pub struct Meta {
+
+}
+
 #[derive(Debug, DeJson, Clone, Copy)]
 pub struct KhrTextureTransform {
     #[nserde(default)]
